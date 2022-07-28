@@ -7,9 +7,9 @@ CC = avr-gcc
 CFLAGS = -Wall -g -Os -mmcu=$(MCU) 
 
 SRC = main
-DEPS = {Timer,SevSeg,Rtc}/*.c
+DEPS = {Timer,SevSeg,Rtc,Control}/*.c
 # DEPS =
-INCLUDE = -I{Timer,SevSeg,Rtc}
+INCLUDE = -I{Timer,SevSeg,Rtc,Control}
 # INCLUDE = 
 
 

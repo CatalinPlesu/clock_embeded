@@ -18,10 +18,7 @@ void SevSegInit(void);
 
 void SevSegRutine(void);
 
-
 StatusError SevSegSetTimeVal(Time time);
-
-StatusError SevSegSetFloatVal(float value);
 
 StatusError SevSegSetByDigit(uint8_t digitIndex, uint8_t digitValue, bool withComa);
 

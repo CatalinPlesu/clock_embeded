@@ -38,7 +38,6 @@ uint8_t segCode[12]= {
 };
 
 /* local functions */
-static void FloatToBuff(float value,uint8_t * data);
 static void TimeToBuff(Time time,uint8_t * data);
 
 /* Global functions */
@@ -84,13 +83,6 @@ void SevSegRutine(void)
 	}
 }
 
-StatusError SevSegSetFloatVal(float value)
-{
-	FloatToBuff(value,digitsValue);
-	
-	return StatusErrNone;
-}
-
 StatusError SevSegSetTimeVal(Time time)
 {
 	TimeToBuff(time,digitsValue);
@@ -133,94 +125,6 @@ StatusError SevSegSetByDigitCostum(uint8_t digitIndex, uint8_t digitValue)
 	{
 		return StatusErrIndex;
 	}
-}
-
-static void FloatToBuff(float value,uint8_t * data)
-{
-	bool startCountIncrease = false;
-	float decVal;
-	uint8_t localdigitCount = 0;
-	uint8_t tmp;
-	float localVlaue, localdecValue, decimalMultipler;
-	
-	decimalMultipler = (float)pow((double)10,(double)(DISPLAY_7_SEGMENT_DIGITS_COUNT - 1));
-	
-	if (value < 0)
-	{
-		value *= -1;
-		data[localdigitCount] = segCode[MINUS_INDEX];
-		localdigitCount++;
-		decVal = (float)pow((double)10,(double)(DISPLAY_7_SEGMENT_DIGITS_COUNT - 2));
-		
-		if (value >= (float)pow((double)10,(double)(DISPLAY_7_SEGMENT_DIGITS_COUNT - 1)))
-		{
-			localVlaue = (float)pow((double)10,(double)(DISPLAY_7_SEGMENT_DIGITS_COUNT - 1)) - 1;
-		}
-		else
-		{
-			localVlaue = value;
-		}
-	}
-	else
-	{
-		decVal = (float)pow((double)10,(double)(DISPLAY_7_SEGMENT_DIGITS_COUNT - 1));
-		
-		if (value >= (float)pow((double)10,(double)(DISPLAY_7_SEGMENT_DIGITS_COUNT)))
-		{
-			localVlaue = (float)pow((double)10,(double)(DISPLAY_7_SEGMENT_DIGITS_COUNT)) - 1;
-		}
-		else
-		{
-			localVlaue = value;
-		}
-	}
-	
-	localdecValue = (localVlaue * (float)decimalMultipler) - (float)((int)localVlaue * (int)decimalMultipler);
-	
-	while(decVal >= 1)
-	{
-		if (localVlaue >= decVal)
-		{
-			tmp = (uint8_t)(localVlaue / decVal);
-			data[localdigitCount] = segCode[tmp];
-			localdigitCount++;
-			localVlaue -= (float)tmp * decVal;
-			startCountIncrease = true;
-		}
-		else if(startCountIncrease)
-		{
-			data[localdigitCount] = segCode[ZERO_INDEX];
-			localdigitCount++;
-		}
-		decVal /= 10;
-		
-	}
-	
-	if (localdigitCount >= DISPLAY_7_SEGMENT_DIGITS_COUNT)
-	{
-		return;
-	}
-	
-	if (localdigitCount == 0)
-	{
-		data[localdigitCount] = 0;
-		localdigitCount++;
-	}
-	
-	data[localdigitCount - 1] |= segCode[COMA_INDEX];
-	
-	decVal = decimalMultipler / 10;
-	
-	while(localdigitCount <= DISPLAY_7_SEGMENT_DIGITS_COUNT)
-	{
-		tmp = (uint8_t)(localdecValue / decVal);
-		data[localdigitCount] = segCode[tmp];
-		localdigitCount++;
-		localdecValue -= (float)tmp * decVal;
-		decVal /= 10;
-	}
-	
-	return;
 }
 
 void TimeToBuff(Time time,uint8_t * data)
