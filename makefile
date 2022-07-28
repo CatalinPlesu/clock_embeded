@@ -7,10 +7,10 @@ CC = avr-gcc
 CFLAGS = -Wall -g -Os -mmcu=$(MCU) 
 
 SRC = main
-# DEPS = {Timer,Disp7Seg}/*.c
-DEPS =
-# INCLUDE = -I{Timer,Disp7Seg}
-INCLUDE = 
+DEPS = {Timer,SevSeg,Rtc}/*.c
+# DEPS =
+INCLUDE = -I{Timer,SevSeg,Rtc}
+# INCLUDE = 
 
 
 all: compile install clean
