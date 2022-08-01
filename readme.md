@@ -3,13 +3,13 @@
 ## 7 Segment Display
     * can display time from a structure
 ## Buttons interface
+    - On/Off
     - Nex Item
     - Toglle Hour / Minutes
     - Increase
     - Decrease
     - Execute
     - Reset
-    - On/Off
 ## Leds for different modes
     1. Clock
     2. Timer

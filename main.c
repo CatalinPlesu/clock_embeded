@@ -3,7 +3,8 @@
 #include "SevSeg.h"
 #include "TimerCfg.h"
 #include "TimerSw.h"
-#include "stdbool.h"
+#include "Control.h"
+#include <stdbool.h>
 #include <avr/interrupt.h>
 #include <avr/io.h>
 
@@ -27,7 +28,9 @@ int main(void)
         TimerSwStartup(&timerSwHandle, 1000);
     }
 
+    ControlInit();
     while (1) {
+        ControlRoutine();
 
         err = TimerSwIsExpired(&timerSwHandle);
         if (err == StatusErrTime) {
